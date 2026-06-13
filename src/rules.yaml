@@ -1,0 +1,36 @@
+rules:
+# Attacker asks "what storage containers exist?" - active reconnaissance
+- name: S3 Bucket Enumeration
+  description: A principal listed all S3 buckets, indicating reconnaissance
+  severity: MEDIUM
+  conditions:
+    event_name: ListBuckets
+
+# Attacker asks "what files are inside this bucket?" - active reconnaissance
+- name: S3 Object Enumeration
+  description: A principal listed objects in an S3 bucket
+  severity: MEDIUM
+  conditions:
+    event_name: ListObjects
+
+# Attacker steals a file using a role they shouldn't have - data theft
+- name: S3 Data Exfiltration
+  description: An assumed role downloaded an object from S3
+  severity: HIGH
+  conditions:
+    event_name: GetObject
+    principle_type: AssumedRole
+
+# Someone or something puts on a "disguise" by assuming another identity
+- name: Privilege Escalation via Role Assumption
+  description: An AWS service assumed an IAM role, potentially unauthorized
+  severity: HIGH
+  conditions:
+    event_name: AssumeRole
+
+# Attacker checks "which doors are locked vs open?" - active recon
+- name: Unusual Reconnaissance Activity
+  description: A principal described security groups, possibly mapping the network
+  severity: LOW
+  conditions:
+    event_name: DescribeSecurityGroups
