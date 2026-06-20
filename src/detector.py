@@ -97,5 +97,9 @@ if __name__ == "__main__":
     # Run all rules against the database
     alerts = run_detection(db_path, rules_path)
 
+    # Save the alerts to a JSON file so we have a record of them
+    from alerter import save_alerts
+    save_alerts(alerts, os.path.join(root, "output"))
+
     # Print the results
     print_alerts(alerts)
