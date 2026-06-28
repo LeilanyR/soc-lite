@@ -331,7 +331,7 @@ def run_dashboard(port=8080):
     html = build_html(alerts)
 
     # Save it to a file the web server can serve
-    dashboard_path = os.path.join(root, "output", "dashboard.html")
+    dashboard_path = os.path.join(root, "output", "index.html")
     with open(dashboard_path, "w", encoding="utf-8") as f:
         f.write(html)
 
@@ -341,7 +341,7 @@ def run_dashboard(port=8080):
     with open(logs_path, "w") as f:
         f.write(logs_html)
 
-    print(f"[+] Dashboard ready! Open your browser to: http://localhost:{port}/dashboard.html")
+    print(f"[+] Dashboard ready! Open your browser to: http://localhost:{port}/index.html")
 
     # Start a simple web server from the output folder
     os.chdir(os.path.join(root, "output"))
