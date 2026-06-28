@@ -38,7 +38,7 @@ def build_html(alerts):
         # Build sample events rows
         event_rows = ""
         for event in alert["sample_events"]:
-            event_rows += f"""                <tr>
+            event_rows += f"""                <tr onclick="window.location='logs.html#event-{event['timestamp']}'" style="cursor:pointer" title="Click to view all logs">
                     <td>{event['timestamp']}</td>
                     <td>{event['event_name']}</td>
                     <td>{event['user']}</td>
@@ -212,6 +212,112 @@ def build_html(alerts):
 
     return html
 
+def build_logs_html(db_path):
+    """Build a page showing all logs so users can see full event details."""
+    import sqlite3
+    conn = sqlite3.connect(db_path)
+    # Get every event from the database
+    rows = conn.execute("SELECT rowid, timestamp, event_name, user, source_ip, event_source, principle_type, raw_log FROM events ORDER BY timestamp").fetchall()
+    conn.close()
+
+    # Build a table row for each event, with an anchor ID for linking
+    table_rows = ""
+    for row in rows:
+        table_rows += f"""
+        <tr id="event-{row[1]}">
+            <td>{row[0]}</td>
+            <td>{row[1]}</td>
+            <td>{row[2]}</td>
+            <td>{row[3]}</td>
+            <td>{row[4]}</td>
+            <td>{row[5]}</td>
+            <td>{row[6]}</td>
+            <td><details><summary>View Raw Log</summary><pre style="white-space:pre-wrap;font-size:0.75em;background:#f5f3ff;padding:8px;border-radius
+            :8px;margin-top:5px">{json.dumps(json.loads(row[7]))}</pre></details></td>
+        </tr>"""
+
+    html = f"""<!DOCTYPE html>
+<html>
+<head>
+    <title>SOC-Lite - All Logs</title>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        body {{
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #f3e8ff, #ede4ff, #faf5ff);
+            min-height: 100vh;
+            padding: 40px;
+        }}
+        h1 {{
+            text-align: center;
+            color: #6b21a8;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }}
+        .back-btn {{
+            display: block;
+            width: fit-content;
+            margin: 0 auto 30px auto;
+            background: #7c3aed;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+        }}
+        .back-btn:hover {{
+            background: #6b21a8;
+        }}
+        table {{
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.1);
+            font-size: 0.85em;
+            }}
+            th {{
+            background: #f5f3ff;
+            color: #6B21A8;
+            padding: 10px 12px;
+            text-align: left;
+        }}
+        td {{
+            padding: 8px 12px;
+            border-top: 1px solid #ede9fe;
+            color:#4b5563;
+        }}
+            tr:hover td {{
+            background: #faf5ff;
+        }}
+        tr:target td {{
+            background: #e9d5ff;
+            font-weight: bold;
+        }}
+    </style>
+</head>
+<body>
+    <h1>&#128203; All Events Log</h1>
+    <a href="dashboard.html" class="back-btn">&#x2190; Back to Dashboard</a>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Timestamp</th>
+            <th>Event</th>
+            <th>User</th>
+            <th>Source IP</th>
+            <th>Service</th>
+            <th>Principal Type</th>
+            <th>Raw Log</th>
+        </tr>
+        {table_rows}
+    </table>
+</body>
+</html>"""
+    return html
 
 def run_dashboard(port=8080):
     """Start a local web server that shows the dashboard."""
@@ -228,6 +334,12 @@ def run_dashboard(port=8080):
     dashboard_path = os.path.join(root, "output", "dashboard.html")
     with open(dashboard_path, "w", encoding="utf-8") as f:
         f.write(html)
+
+    # Build the logs page and save it
+    logs_html = build_logs_html("soc_lite.db")
+    logs_path = os.path.join(root, "output", "logs.html")
+    with open(logs_path, "w") as f:
+        f.write(logs_html)
 
     print(f"[+] Dashboard ready! Open your browser to: http://localhost:{port}/dashboard.html")
 

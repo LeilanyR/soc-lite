@@ -15,7 +15,8 @@ def init_db(db_path="soc-lite.db"):
             region TEXT,
             user_agent TEXT,
             request_params TEXT,
-            resources TEXT
+            resources TEXT,
+            raw_log TEXT
         )
     """)
     conn.commit()
@@ -25,8 +26,8 @@ def insert_events(conn, events):
     """insert parsed events into the database."""
     conn.executemany("""
         INSERT INTO events (timestamp, event_name, event_source, source_ip, 
-                     user, principle_type, region, user_agent, request_params, resources)
+                     user, principle_type, region, user_agent, request_params, resources, raw_log)
         VALUES (:timestamp, :event_name, :event_source, :source_ip,
-                :user, :principle_type, :region, :user_agent, :request_params, :resources)
+                :user, :principle_type, :region, :user_agent, :request_params, :resources, :raw_log)
     """, events)
     conn.commit()

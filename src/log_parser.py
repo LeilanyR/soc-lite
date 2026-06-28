@@ -36,4 +36,5 @@ def normalize_event(raw:dict) -> dict:
         "user_agent": raw.get("userAgent", ""),
         "request_params": json.dumps(raw.get("requestParameters")),
         "resources": json.dumps(raw.get("resources", [])),
+        "raw_log": json.dumps(raw),
     }
