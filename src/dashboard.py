@@ -190,23 +190,7 @@ def build_html(alerts):
             <div class="label">Low</div>
         </div>
     </div>
-
 {alert_cards}
-    <script>
-        window.onload = function() {{
-            const jokes = [
-                "🚨 ALERT: Unauthorized vibes detected in your network. Initiating cuteness protocol... 💜",
-                "⚠️ Heads up: suspicious giggles detected. Deploying plushy countermeasures... 🧸",
-                "🔔 Warning: Someone\'s being sneaky. Launching dance-off deterrent... 💃",
-                "🛡️ Alert: Unexpected vibes incoming. Activating cookie brigade... 🍪",
-                "🐱‍👤 Notice: Stealthy shenanigans detected. Summoning ninja kittens... 😼",
-            ];
-            const msg = jokes[Math.floor(Math.random() * jokes.length)];
-            setTimeout(function() {{
-                alert(msg);
-            }}, 500);
-        }};
-    </script>
 </body>
 </html>"""
 
@@ -232,8 +216,11 @@ def build_logs_html(db_path):
             <td>{row[4]}</td>
             <td>{row[5]}</td>
             <td>{row[6]}</td>
-            <td><details><summary>View Raw Log</summary><pre style="white-space:pre-wrap;font-size:0.75em;background:#f5f3ff;padding:8px;border-radius
-            :8px;margin-top:5px">{json.dumps(json.loads(row[7]))}</pre></details></td>
+            <td><details><summary>View</summary></details></td>
+        </tr>
+        <tr class="raw-log-row" style="display:none">
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{json.dumps(json.loads(row[7]), indent=2) if row[7] else
+"N/A"}</pre></td>
         </tr>"""
 
     html = f"""<!DOCTYPE html>
@@ -315,6 +302,19 @@ def build_logs_html(db_path):
         </tr>
         {table_rows}
     </table>
+<script>
+    document.querySelectorAll('details').forEach(function(detail) {{
+        detail.addEventListener('toggle', function() {{
+            var rawRow = this.closest('tr').nextElementSibling;
+            if (this.open) {{
+                rawRow.style.display = 'table-row';
+            }} else {{
+                rawRow.style.display = 'none';
+            }}
+        }});
+    }});
+</script>
+
 </body>
 </html>"""
     return html
