@@ -34,3 +34,44 @@ rules:
   severity: LOW
   conditions:
     event_name: DescribeSecurityGroups
+
+# Attacker rapidly lists objects multiple times — looks like automated enumeration
+- name: Rapid S3 Enumeration
+  description: Multiple S3 list operations in a short time window, indicating automated recon
+  severity: HIGH
+  type: time_window
+  conditions:
+    event_name: ListObjects
+  threshold: 3
+  window_seconds: 120
+
+# Attacker tries to see all EC2 instances — mapping the compute environment
+- name: EC2 Instance Discovery
+  description: A principal described EC2 instances, mapping the compute environment
+  severity: LOW
+  conditions:
+    event_name: DescribeInstances
+
+# Attacker checks what IAM keys exist — looking for credentials to steal
+- name: Credential Discovery
+  description: A principal listed key pairs, possibly looking for SSH access
+  severity: MEDIUM
+  conditions:
+    event_name: DescribeKeyPairs
+
+# Attacker checks storage volumes — looking for data to steal
+- name: Storage Reconnaissance
+  description: A principal described EBS volumes, mapping data storage
+  severity: LOW
+  conditions:
+    event_name: DescribeVolumes
+
+# Attacker rapidly assumes roles — could be trying multiple roles to find one that works
+- name: Rapid Role Assumption
+  description: Multiple role assumptions in a short time window, indicating credential abuse
+  severity: CRITICAL
+  type: time_window
+  conditions:
+    event_name: AssumeRole
+  threshold: 2
+  window_seconds: 300

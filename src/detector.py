@@ -24,36 +24,71 @@ def run_detection(db_path, rules_path):
 
     # Go through each rule one by one
     for rule in rules:
-        # Get the conditions from the rule (e.g., event_name: ListBuckets)
+        #Start with 0 matches
+        matches = []
+        # Get the conditions from the rule
         conditions = rule["conditions"]
 
-        # Build a database query from the rule's conditions
-        # Example: if conditions are {event_name: ListBuckets, principal_type: AssumedRole}
-        # we build: "WHERE event_name = ? AND principal_type = ?"
+        # Build SQL query from the rule's conditions
         where_parts = []
         values = []
         for field, value in conditions.items():
             where_parts.append(f"{field} = ?")
             values.append(value)
 
-        # Join all conditions with AND
         where_clause = " AND ".join(where_parts)
 
-        # Full query: find all events that match this rule's conditions
-        query = f"SELECT timestamp, event_name, user, source_ip FROM events WHERE {where_clause}"
+        # Check if this is a time-window rule or a simple rule
+        if rule.get("type") == "time_window":
+            # Time-window rule: find events that happen rapidly
+            # Order by timestamp so we can check time gaps
+            query = f"SELECT timestamp, event_name, user, source_ip FROM events WHERE {where_clause} ORDER BY timestamp"
+            matches = conn.execute(query, values).fetchall()
 
-        # Run the query and get all matching events
-        matches = conn.execute(query, values).fetchall()
+            # Check if enough events happened within the time window
+            if len(matches) >= rule["threshold"]:
+                # Parse timestamps and check if any group fits the window
+                from datetime import datetime
+                timestamps = []
+                for m in matches:
+                    try:
+                        ts = datetime.strptime(m[0], "%Y-%m-%dT%H:%M:%S.%fZ")
+                        timestamps.append(ts)
+                    except:
+                        continue
 
-        # If we found matches, this rule triggered — create an alert
-        if matches:
-            alerts.append({
-                "rule": rule["name"],
-                "severity": rule["severity"],
-                "description": rule["description"],
-                "match_count": len(matches),
-                "sample_events": matches[:3], # only show first 3 examples
-            })
+                # Sliding window check: do any N events happen within the window?
+                window = rule["window_seconds"]
+                threshold = rule["threshold"]
+                triggered = False
+                for i in range(len(timestamps) - threshold + 1):
+                    diff = (timestamps[i + threshold - 1] - timestamps[i]).total_seconds()
+                    if diff <= window:
+                        triggered = True
+                        break
+
+                if triggered:
+                    alerts.append({
+                        "rule": rule["name"],
+                        "severity": rule["severity"],
+                        "description": rule["description"],
+                        "match_count": len(matches),
+                        "sample_events": matches[:3],
+                    })
+        else:
+            # Simple rule: just check if any events match
+            query = f"SELECT timestamp, event_name, user, source_ip FROM events WHERE {where_clause}"
+            matches = conn.execute(query, values).fetchall()
+
+            # If we found matches, this rule triggered — create an alert
+            if matches:
+                alerts.append({
+                    "rule": rule["name"],
+                    "severity": rule["severity"],
+                    "description": rule["description"],
+                    "match_count": len(matches),
+                    "sample_events": matches[:3],
+                })
 
     conn.close()
     return alerts

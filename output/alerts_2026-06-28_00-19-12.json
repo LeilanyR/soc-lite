@@ -1,0 +1,226 @@
+[
+  {
+    "rule": "S3 Bucket Enumeration",
+    "severity": "MEDIUM",
+    "description": "A principal listed all S3 buckets, indicating reconnaissance",
+    "match_count": 2,
+    "sample_events": [
+      {
+        "timestamp": "2020-09-14T01:01:50.000Z",
+        "event_name": "ListBuckets",
+        "user": "MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0",
+        "source_ip": "1.2.3.4"
+      },
+      {
+        "timestamp": "2020-09-14T01:00:04.000Z",
+        "event_name": "ListBuckets",
+        "user": "MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0",
+        "source_ip": "1.2.3.4"
+      }
+    ]
+  },
+  {
+    "rule": "S3 Object Enumeration",
+    "severity": "MEDIUM",
+    "description": "A principal listed objects in an S3 bucket",
+    "match_count": 7,
+    "sample_events": [
+      {
+        "timestamp": "2020-09-14T01:00:33.000Z",
+        "event_name": "ListObjects",
+        "user": "MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0",
+        "source_ip": "1.2.3.4"
+      },
+      {
+        "timestamp": "2020-09-14T01:00:53.000Z",
+        "event_name": "ListObjects",
+        "user": "MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0",
+        "source_ip": "1.2.3.4"
+      },
+      {
+        "timestamp": "2020-09-14T01:01:04.000Z",
+        "event_name": "ListObjects",
+        "user": "MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0",
+        "source_ip": "1.2.3.4"
+      }
+    ]
+  },
+  {
+    "rule": "S3 Data Exfiltration",
+    "severity": "HIGH",
+    "description": "An assumed role downloaded an object from S3",
+    "match_count": 2,
+    "sample_events": [
+      {
+        "timestamp": "2020-09-14T01:02:34.000Z",
+        "event_name": "GetObject",
+        "user": "MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0",
+        "source_ip": "1.2.3.4"
+      },
+      {
+        "timestamp": "2020-09-14T01:13:20.000Z",
+        "event_name": "GetObject",
+        "user": "MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0",
+        "source_ip": "1.2.3.4"
+      }
+    ]
+  },
+  {
+    "rule": "Privilege Escalation via Role Assumption",
+    "severity": "HIGH",
+    "description": "An AWS service assumed an IAM role, potentially unauthorized",
+    "match_count": 5,
+    "sample_events": [
+      {
+        "timestamp": "2020-09-14T00:50:17.000Z",
+        "event_name": "AssumeRole",
+        "user": "ec2.amazonaws.com",
+        "source_ip": "ec2.amazonaws.com"
+      },
+      {
+        "timestamp": "2020-09-14T00:50:17.000Z",
+        "event_name": "AssumeRole",
+        "user": "ec2.amazonaws.com",
+        "source_ip": "ec2.amazonaws.com"
+      },
+      {
+        "timestamp": "2020-09-14T00:48:30.000Z",
+        "event_name": "AssumeRole",
+        "user": "ec2.amazonaws.com",
+        "source_ip": "ec2.amazonaws.com"
+      }
+    ]
+  },
+  {
+    "rule": "Unusual Reconnaissance Activity",
+    "severity": "LOW",
+    "description": "A principal described security groups, possibly mapping the network",
+    "match_count": 1,
+    "sample_events": [
+      {
+        "timestamp": "2020-09-14T00:53:58.000Z",
+        "event_name": "DescribeSecurityGroups",
+        "user": "pedro",
+        "source_ip": "1.2.3.4"
+      }
+    ]
+  },
+  {
+    "rule": "Rapid S3 Enumeration",
+    "severity": "HIGH",
+    "description": "Multiple S3 list operations in a short time window, indicating automated recon",
+    "match_count": 7,
+    "sample_events": [
+      {
+        "timestamp": "2020-09-14T01:00:33.000Z",
+        "event_name": "ListObjects",
+        "user": "MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0",
+        "source_ip": "1.2.3.4"
+      },
+      {
+        "timestamp": "2020-09-14T01:00:53.000Z",
+        "event_name": "ListObjects",
+        "user": "MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0",
+        "source_ip": "1.2.3.4"
+      },
+      {
+        "timestamp": "2020-09-14T01:01:04.000Z",
+        "event_name": "ListObjects",
+        "user": "MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0",
+        "source_ip": "1.2.3.4"
+      }
+    ]
+  },
+  {
+    "rule": "EC2 Instance Discovery",
+    "severity": "LOW",
+    "description": "A principal described EC2 instances, mapping the compute environment",
+    "match_count": 11,
+    "sample_events": [
+      {
+        "timestamp": "2020-09-14T00:44:24.000Z",
+        "event_name": "DescribeInstances",
+        "user": "pedro",
+        "source_ip": "1.2.3.4"
+      },
+      {
+        "timestamp": "2020-09-14T00:44:23.000Z",
+        "event_name": "DescribeInstances",
+        "user": "pedro",
+        "source_ip": "1.2.3.4"
+      },
+      {
+        "timestamp": "2020-09-14T00:44:20.000Z",
+        "event_name": "DescribeInstances",
+        "user": "pedro",
+        "source_ip": "1.2.3.4"
+      }
+    ]
+  },
+  {
+    "rule": "Credential Discovery",
+    "severity": "MEDIUM",
+    "description": "A principal listed key pairs, possibly looking for SSH access",
+    "match_count": 1,
+    "sample_events": [
+      {
+        "timestamp": "2020-09-14T00:53:58.000Z",
+        "event_name": "DescribeKeyPairs",
+        "user": "pedro",
+        "source_ip": "1.2.3.4"
+      }
+    ]
+  },
+  {
+    "rule": "Storage Reconnaissance",
+    "severity": "LOW",
+    "description": "A principal described EBS volumes, mapping data storage",
+    "match_count": 10,
+    "sample_events": [
+      {
+        "timestamp": "2020-09-14T00:44:20.000Z",
+        "event_name": "DescribeVolumes",
+        "user": "pedro",
+        "source_ip": "1.2.3.4"
+      },
+      {
+        "timestamp": "2020-09-14T00:45:36.000Z",
+        "event_name": "DescribeVolumes",
+        "user": "pedro",
+        "source_ip": "1.2.3.4"
+      },
+      {
+        "timestamp": "2020-09-14T00:45:36.000Z",
+        "event_name": "DescribeVolumes",
+        "user": "pedro",
+        "source_ip": "1.2.3.4"
+      }
+    ]
+  },
+  {
+    "rule": "Rapid Role Assumption",
+    "severity": "CRITICAL",
+    "description": "Multiple role assumptions in a short time window, indicating credential abuse",
+    "match_count": 5,
+    "sample_events": [
+      {
+        "timestamp": "2020-09-14T00:48:30.000Z",
+        "event_name": "AssumeRole",
+        "user": "ec2.amazonaws.com",
+        "source_ip": "ec2.amazonaws.com"
+      },
+      {
+        "timestamp": "2020-09-14T00:48:30.000Z",
+        "event_name": "AssumeRole",
+        "user": "ec2.amazonaws.com",
+        "source_ip": "ec2.amazonaws.com"
+      },
+      {
+        "timestamp": "2020-09-14T00:48:30.000Z",
+        "event_name": "AssumeRole",
+        "user": "ec2.amazonaws.com",
+        "source_ip": "ec2.amazonaws.com"
+      }
+    ]
+  }
+]
