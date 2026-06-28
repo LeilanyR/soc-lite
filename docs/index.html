@@ -110,24 +110,55 @@
 
     <div class="summary">
         <div class="summary-card">
-            <div class="count">5</div>
+            <div class="count">10</div>
             <div class="label">Total Rules Triggered</div>
         </div>
         <div class="summary-card">
-            <div class="count">2</div>
+            <div class="count">4</div>
             <div class="label">High/Critical</div>
         </div>
         <div class="summary-card">
-            <div class="count">2</div>
+            <div class="count">3</div>
             <div class="label">Medium</div>
         </div>
         <div class="summary-card">
-            <div class="count">1</div>
+            <div class="count">3</div>
             <div class="label">Low</div>
         </div>
     </div>
 
 
+        <div class="alert-card">
+            <div class="alert-header">
+                <span class="badge" style="background:#dc2626">CRITICAL</span>
+                <span class="alert-title">Rapid Role Assumption</span>
+            </div>
+            <p class="alert-desc">Multiple role assumptions in a short time window, indicating credential abuse</p>
+            <p class="match-count">Matched <strong>5</strong> events</p>
+            <table>
+                <tr><th>Timestamp</th><th>Event</th><th>User</th><th>Source IP</th></tr>
+                <tr>
+                    <td>2020-09-14T00:48:30.000Z</td>
+                    <td>AssumeRole</td>
+                    <td>ec2.amazonaws.com</td>
+                    <td>ec2.amazonaws.com</td>
+                </tr>
+                <tr>
+                    <td>2020-09-14T00:48:30.000Z</td>
+                    <td>AssumeRole</td>
+                    <td>ec2.amazonaws.com</td>
+                    <td>ec2.amazonaws.com</td>
+                </tr>
+                <tr>
+                    <td>2020-09-14T00:48:30.000Z</td>
+                    <td>AssumeRole</td>
+                    <td>ec2.amazonaws.com</td>
+                    <td>ec2.amazonaws.com</td>
+                </tr>
+
+            </table>
+        </div>
+        
         <div class="alert-card">
             <div class="alert-header">
                 <span class="badge" style="background:E85D75_1">HIGH</span>
@@ -179,6 +210,37 @@
                     <td>AssumeRole</td>
                     <td>ec2.amazonaws.com</td>
                     <td>ec2.amazonaws.com</td>
+                </tr>
+
+            </table>
+        </div>
+        
+        <div class="alert-card">
+            <div class="alert-header">
+                <span class="badge" style="background:E85D75_1">HIGH</span>
+                <span class="alert-title">Rapid S3 Enumeration</span>
+            </div>
+            <p class="alert-desc">Multiple S3 list operations in a short time window, indicating automated recon</p>
+            <p class="match-count">Matched <strong>7</strong> events</p>
+            <table>
+                <tr><th>Timestamp</th><th>Event</th><th>User</th><th>Source IP</th></tr>
+                <tr>
+                    <td>2020-09-14T01:00:33.000Z</td>
+                    <td>ListObjects</td>
+                    <td>MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0</td>
+                    <td>1.2.3.4</td>
+                </tr>
+                <tr>
+                    <td>2020-09-14T01:00:53.000Z</td>
+                    <td>ListObjects</td>
+                    <td>MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0</td>
+                    <td>1.2.3.4</td>
+                </tr>
+                <tr>
+                    <td>2020-09-14T01:01:04.000Z</td>
+                    <td>ListObjects</td>
+                    <td>MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0</td>
+                    <td>1.2.3.4</td>
                 </tr>
 
             </table>
@@ -242,6 +304,25 @@
         
         <div class="alert-card">
             <div class="alert-header">
+                <span class="badge" style="background:C084FC_1">MEDIUM</span>
+                <span class="alert-title">Credential Discovery</span>
+            </div>
+            <p class="alert-desc">A principal listed key pairs, possibly looking for SSH access</p>
+            <p class="match-count">Matched <strong>1</strong> events</p>
+            <table>
+                <tr><th>Timestamp</th><th>Event</th><th>User</th><th>Source IP</th></tr>
+                <tr>
+                    <td>2020-09-14T00:53:58.000Z</td>
+                    <td>DescribeKeyPairs</td>
+                    <td>pedro</td>
+                    <td>1.2.3.4</td>
+                </tr>
+
+            </table>
+        </div>
+        
+        <div class="alert-card">
+            <div class="alert-header">
                 <span class="badge" style="background:A78BFA_1">LOW</span>
                 <span class="alert-title">Unusual Reconnaissance Activity</span>
             </div>
@@ -252,6 +333,68 @@
                 <tr>
                     <td>2020-09-14T00:53:58.000Z</td>
                     <td>DescribeSecurityGroups</td>
+                    <td>pedro</td>
+                    <td>1.2.3.4</td>
+                </tr>
+
+            </table>
+        </div>
+        
+        <div class="alert-card">
+            <div class="alert-header">
+                <span class="badge" style="background:A78BFA_1">LOW</span>
+                <span class="alert-title">EC2 Instance Discovery</span>
+            </div>
+            <p class="alert-desc">A principal described EC2 instances, mapping the compute environment</p>
+            <p class="match-count">Matched <strong>11</strong> events</p>
+            <table>
+                <tr><th>Timestamp</th><th>Event</th><th>User</th><th>Source IP</th></tr>
+                <tr>
+                    <td>2020-09-14T00:44:24.000Z</td>
+                    <td>DescribeInstances</td>
+                    <td>pedro</td>
+                    <td>1.2.3.4</td>
+                </tr>
+                <tr>
+                    <td>2020-09-14T00:44:23.000Z</td>
+                    <td>DescribeInstances</td>
+                    <td>pedro</td>
+                    <td>1.2.3.4</td>
+                </tr>
+                <tr>
+                    <td>2020-09-14T00:44:20.000Z</td>
+                    <td>DescribeInstances</td>
+                    <td>pedro</td>
+                    <td>1.2.3.4</td>
+                </tr>
+
+            </table>
+        </div>
+        
+        <div class="alert-card">
+            <div class="alert-header">
+                <span class="badge" style="background:A78BFA_1">LOW</span>
+                <span class="alert-title">Storage Reconnaissance</span>
+            </div>
+            <p class="alert-desc">A principal described EBS volumes, mapping data storage</p>
+            <p class="match-count">Matched <strong>10</strong> events</p>
+            <table>
+                <tr><th>Timestamp</th><th>Event</th><th>User</th><th>Source IP</th></tr>
+                <tr>
+                    <td>2020-09-14T00:44:20.000Z</td>
+                    <td>DescribeVolumes</td>
+                    <td>pedro</td>
+                    <td>1.2.3.4</td>
+                </tr>
+                <tr>
+                    <td>2020-09-14T00:45:36.000Z</td>
+                    <td>DescribeVolumes</td>
+                    <td>pedro</td>
+                    <td>1.2.3.4</td>
+                </tr>
+                <tr>
+                    <td>2020-09-14T00:45:36.000Z</td>
+                    <td>DescribeVolumes</td>
                     <td>pedro</td>
                     <td>1.2.3.4</td>
                 </tr>
