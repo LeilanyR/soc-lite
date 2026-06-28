@@ -288,7 +288,7 @@ def build_logs_html(db_path):
 </head>
 <body>
     <h1>&#128203; All Events Log</h1>
-    <a href="dashboard.html" class="back-btn">&#x2190; Back to Dashboard</a>
+    <a href="index.html" class="back-btn">&#x2190; Back to Dashboard</a>
     <table>
         <tr>
             <th>#</th>
