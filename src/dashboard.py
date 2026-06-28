@@ -28,10 +28,10 @@ def build_html(alerts):
     for alert in sorted(alerts, key=lambda a: {"CRITICAL": 0, "HIGH": 1, "MEDIUM": 2, "LOW": 3}[a["severity"]]):
         # Pick badge color based on severity
         badge_colors = {
-            "CRITICAL": "D63384_1",
-            "HIGH": "E85D75_1",
-            "MEDIUM": "C084FC_1",
-            "LOW": "A78BFA_1",
+            "CRITICAL": "#dc2626",
+            "HIGH": "#ea580c",
+            "MEDIUM": "#eab308",
+            "LOW": "#22c55a",
         }
         color = badge_colors[alert["severity"]]
 
