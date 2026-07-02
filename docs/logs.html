@@ -3,68 +3,118 @@
 <head>
     <title>SOC-Lite - All Logs</title>
     <meta charset="utf-8">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Orbitron:wght@500;700&family=Audiowide&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, #f3e8ff, #ede4ff, #faf5ff);
+            background: linear-gradient(135deg, #0F0C29, #302B63, #24243E);
             min-height: 100vh;
             padding: 40px;
+            color: #E2E8F0;
         }
         h1 {
             text-align: center;
-            color: #6b21a8;
-            font-size: 2em;
-            margin-bottom: 20px;
+            font-family: 'Audiowide', 'Orbitron', 'Quicksand', sans-serif;
+            color: #E2E8F0;
+            font-size: 1.8em;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
         }
         .back-btn {
-            display: block;
-            width: fit-content;
-            margin: 0 auto 30px auto;
-            background: #7c3aed;
-            color: white;
-            padding: 10px 24px;
-            border-radius: 20px;
+            display: inline-block;
+            margin: 0 0 24px 0;
+            background: rgba(255,255,255,0.06);
+            color: #E2E8F0;
+            padding: 8px 18px;
+            border-radius: 16px;
             text-decoration: none;
             font-weight: 600;
+            border: 1px solid rgba(167,139,250,0.12);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.36);
         }
         .back-btn:hover {
-            background: #6b21a8;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 36px rgba(0,0,0,0.42);
+        }
+        .logs-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(167,139,250,0.12);
+            border-radius: 14px;
+            padding: 18px;
+            box-shadow: 0 8px 26px rgba(0,0,0,0.32);
+            overflow: auto;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.1);
-            font-size: 0.85em;
-            }
-            th {
-            background: #f5f3ff;
-            color: #6B21A8;
+            font-size: 0.9em;
+            color: #E2E8F0;
+        }
+        th {
+            background: rgba(167,139,250,0.12);
+            color: #C084FC;
             padding: 10px 12px;
             text-align: left;
+            font-weight: 700;
         }
         td {
-            padding: 8px 12px;
-            border-top: 1px solid #ede9fe;
-            color:#4b5563;
+            padding: 10px 12px;
+            border-top: 1px solid rgba(167,139,250,0.06);
+            vertical-align: top;
+            color: #CBD5E1;
         }
-            tr:hover td {
-            background: #faf5ff;
+        tr:hover td {
+            background: rgba(167,139,250,0.03);
         }
         tr:target td {
-            background: #e9d5ff;
-            font-weight: bold;
+            /* Subtle cyber highlight: uniform darker row without bright accent */
+            background: rgba(31,41,55,0.48);
+            font-weight: 700;
+            color: #E6FBFF;
+            border-left: none;
+            transition: background 200ms ease;
+        }
+        .raw-log-row pre {
+            background: rgba(7,10,23,0.85);
+            color: #d1fae5;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 0.78em;
+            overflow: auto;
+            white-space: pre-wrap;
+        }
+        details summary {
+            cursor: pointer;
+            color: #A7F3D0;
+            font-weight: 600;
+        }
+        .controls {
+            margin-bottom: 16px;
+        }
+        #searchInput {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(167,139,250,0.18);
+            background: rgba(255,255,255,0.04);
+            color: #E2E8F0;
+            font-size: 0.95em;
+        }
+        #searchInput::placeholder {
+            color: #94A3B8;
         }
     </style>
 </head>
 <body>
     <h1>&#128203; All Events Log</h1>
     <a href="index.html" class="back-btn">&#x2190; Back to Dashboard</a>
-    <table>
+    <div class="logs-card">
+        <div class="controls">
+            <input id="searchInput" placeholder="Search logs..." />
+        </div>
+    <table id="logsTable">
         <tr>
             <th>#</th>
             <th>Timestamp</th>
@@ -87,7 +137,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "volumeSet": {},
     "filterSet": {},
@@ -135,7 +185,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "DescribeHostsRequest": {
       "MaxResults": 100
@@ -183,7 +233,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "instancesSet": {},
     "filterSet": {
@@ -244,7 +294,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": null,
   "userAgent": "console.ec2.amazonaws.com",
   "awsRegion": "us-east-1",
@@ -289,7 +339,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "DescribeLaunchTemplatesRequest": {
       "MaxResults": 1
@@ -337,7 +387,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "accountAttributeNameSet": {},
     "filterSet": {}
@@ -384,7 +434,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "instancesSet": {},
     "filterSet": {},
@@ -432,7 +482,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "excludeManagedAlarms": false,
     "maxRecords": 100
@@ -479,7 +529,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -543,7 +593,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "DescribeInstanceTypesRequest": {
       "NextToken": "AAIAAUCZLcGdOTmfTz2Vwy7qCVgVq6KNMDDo2s_UFVQdUl8JzmoaM3geYg-eTVO56npOwVkgRcbnccOAIh5xaIntUaFwx3Yzg5z0gJcGwKSvIHr7PoKDSMugzTo27wztP16CU4jRhTPQdzL5kAyA8MMWqgrYKoT5J0xc",
@@ -592,7 +642,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {},
     "instancesSet": {
@@ -645,7 +695,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "DescribeInstanceCreditSpecificationsRequest": {
       "InstanceId": {
@@ -696,7 +746,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "DescribeInstanceTypesRequest": {
       "NextToken": "AAIAAeVpF_2hq1N7S3Mi5dZl-O648yxmBew-zRHtIqJsaoPHjqsyZgswiA_0WxZu1MBAmteEmmCiGSc1FzKY-Frnutcb9j9IVM0YQ36R2z6HzYrehtVuUm_Kel2PQP5xpyJqz8DviWZ-kWAX1J0QtF99duXfEXw7nFU=",
@@ -745,7 +795,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -806,7 +856,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {},
     "instancesSet": {
@@ -859,7 +909,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -920,7 +970,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "attribute": "disableApiTermination",
     "instanceId": "i-044b1baf4c96e1b62"
@@ -967,7 +1017,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "instancesSet": {
       "items": [
@@ -1021,7 +1071,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": null,
   "userAgent": "console.ec2.amazonaws.com",
   "awsRegion": "us-east-1",
@@ -1066,7 +1116,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -1126,7 +1176,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -1186,7 +1236,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -1246,7 +1296,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -1306,7 +1356,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -1366,7 +1416,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -1426,7 +1476,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -1486,7 +1536,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -1546,7 +1596,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -1606,7 +1656,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -1666,7 +1716,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "availabilityZoneSet": {},
     "availabilityZoneIdSet": {}
@@ -1713,7 +1763,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -1773,7 +1823,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -1833,7 +1883,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -1893,7 +1943,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "availabilityZoneSet": {},
     "availabilityZoneIdSet": {}
@@ -1940,7 +1990,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -2000,7 +2050,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "DescribeVolumesModificationsRequest": {
       "MaxResults": 1000
@@ -2048,7 +2098,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -2108,7 +2158,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -2168,7 +2218,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "sharedUsersSet": {
       "items": [
@@ -2223,7 +2273,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "roleSessionName": "i-0317f6c6b66ae9c40",
     "roleArn": "arn:aws:iam::123456789123:role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0"
@@ -2272,7 +2322,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "roleSessionName": "i-0317f6c6b66ae9c40",
     "roleArn": "arn:aws:iam::123456789123:role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0"
@@ -2321,7 +2371,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "roleSessionName": "i-0317f6c6b66ae9c40",
     "roleArn": "arn:aws:iam::123456789123:role/MordorNginxStack-BankingWAFRole-9S3E0UAE1MM0"
@@ -2370,7 +2420,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "roleSessionName": "i-044b1baf4c96e1b62",
     "roleArn": "arn:aws:iam::123456789123:role/MordorLogCollectorStack-LogCollectorRole-1JJTG88NNY4KN"
@@ -2419,7 +2469,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "roleSessionName": "i-044b1baf4c96e1b62",
     "roleArn": "arn:aws:iam::123456789123:role/MordorLogCollectorStack-LogCollectorRole-1JJTG88NNY4KN"
@@ -2468,7 +2518,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "DescribeLaunchTemplatesRequest": {
       "MaxResults": 1
@@ -2516,7 +2566,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "availabilityZoneSet": {},
     "availabilityZoneIdSet": {}
@@ -2563,7 +2613,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "volumeSet": {},
     "filterSet": {},
@@ -2611,7 +2661,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {},
     "volumeSet": {}
@@ -2658,7 +2708,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "keyPairIdSet": {},
     "keySet": {},
@@ -2706,7 +2756,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "DescribeHostsRequest": {
       "MaxResults": 100
@@ -2754,7 +2804,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "instancesSet": {},
     "includeAllInstances": false,
@@ -2802,7 +2852,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "instancesSet": {},
     "filterSet": {
@@ -2863,7 +2913,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "placementGroupIdSet": {},
     "placementGroupSet": {},
@@ -2911,7 +2961,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "accountAttributeNameSet": {
       "items": [
@@ -2964,7 +3014,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "accountAttributeNameSet": {
       "items": [
@@ -3017,7 +3067,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "securityGroupSet": {},
     "filterSet": {},
@@ -3066,7 +3116,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {},
     "allocationIdsSet": {},
@@ -3114,7 +3164,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": null,
   "userAgent": "console.ec2.amazonaws.com",
   "awsRegion": "us-east-1",
@@ -3159,7 +3209,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "sharedUsersSet": {},
     "snapshotSet": {},
@@ -3215,7 +3265,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": null,
   "userAgent": "console.ec2.amazonaws.com",
   "awsRegion": "us-east-1",
@@ -3260,7 +3310,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "attribute": "disableApiTermination",
     "instanceId": "i-044b1baf4c96e1b62"
@@ -3307,7 +3357,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "instancesSet": {},
     "filterSet": {},
@@ -3355,7 +3405,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -3415,7 +3465,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {},
     "instancesSet": {
@@ -3468,7 +3518,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {},
     "instancesSet": {
@@ -3521,7 +3571,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -3582,7 +3632,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "accountAttributeNameSet": {},
     "filterSet": {}
@@ -3629,7 +3679,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "DescribeInstanceCreditSpecificationsRequest": {
       "InstanceId": {
@@ -3680,7 +3730,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "instancesSet": {
       "items": [
@@ -3737,7 +3787,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "instancesSet": {
       "items": [
@@ -3791,7 +3841,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -3855,7 +3905,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {},
     "instancesSet": {
@@ -3908,7 +3958,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -3974,7 +4024,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -4060,7 +4110,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "instancesSet": {
       "items": [
@@ -4114,7 +4164,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "excludeManagedAlarms": false,
     "maxRecords": 100
@@ -4161,7 +4211,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "instancesSet": {
       "items": [
@@ -4215,7 +4265,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {},
     "instancesSet": {
@@ -4268,7 +4318,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {},
     "instancesSet": {
@@ -4321,7 +4371,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -4382,7 +4432,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "attribute": "disableApiTermination",
     "instanceId": "i-0317f6c6b66ae9c40"
@@ -4429,7 +4479,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {},
     "instancesSet": {
@@ -4482,7 +4532,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -4543,7 +4593,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "attribute": "disableApiTermination",
     "instanceId": "i-0317f6c6b66ae9c40"
@@ -4590,7 +4640,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {},
     "instancesSet": {
@@ -4643,7 +4693,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -4729,7 +4779,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {},
     "instancesSet": {
@@ -4782,7 +4832,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "DescribeInstanceCreditSpecificationsRequest": {
       "InstanceId": {
@@ -4833,7 +4883,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "DescribeInstanceCreditSpecificationsRequest": {
       "InstanceId": {
@@ -4884,7 +4934,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": null,
   "userAgent": "console.ec2.amazonaws.com",
   "awsRegion": "us-east-1",
@@ -4929,7 +4979,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "instancesSet": {
       "items": [
@@ -4983,7 +5033,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "filterSet": {
       "items": [
@@ -5049,7 +5099,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "Host": "s3.amazonaws.com"
   },
@@ -5108,7 +5158,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "prefix": "",
     "encoding-type": "url",
@@ -5185,7 +5235,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "prefix": "",
     "encoding-type": "url",
@@ -5262,7 +5312,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "prefix": "",
     "encoding-type": "url",
@@ -5339,7 +5389,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "Host": "s3.amazonaws.com"
   },
@@ -5398,7 +5448,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "key": "ring.txt",
     "Host": "mordors3stack-s3bucket-llp2yingx64a.s3.amazonaws.com",
@@ -5473,7 +5523,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "prefix": "",
     "encoding-type": "url",
@@ -5550,7 +5600,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "Host": "mordors3stack-s3bucket-llp2yingx64a.s3.amazonaws.com",
     "list-type": "2",
@@ -5628,7 +5678,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "Host": "mordors3stack-s3bucket-llp2yingx64a.s3.amazonaws.com",
     "list-type": "2",
@@ -5706,7 +5756,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "prefix": "",
     "encoding-type": "url",
@@ -5783,7 +5833,7 @@
             <td><details><summary>View</summary></details></td>
         </tr>
         <tr class="raw-log-row" style="display:none">
-            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#f5f3ff;padding:12px;border-radius:8px;max-width:100%">{
+            <td colspan="8"><pre style="white-space:pre-wrap;word-break:break-all;font-size:0.75em;background:#000000;padding:12px;border-radius:8px;max-width:100%">{
   "requestParameters": {
     "key": "ring.txt",
     "Host": "mordors3stack-s3bucket-llp2yingx64a.s3.amazonaws.com",
@@ -5848,6 +5898,7 @@
 }</pre></td>
         </tr>
     </table>
+    </div>
 <script>
     document.querySelectorAll('details').forEach(function(detail) {
         detail.addEventListener('toggle', function() {
@@ -5859,6 +5910,21 @@
             }
         });
     });
+
+    function filterLogs() {
+        var query = document.getElementById('searchInput').value.toLowerCase();
+        document.querySelectorAll('#logsTable tr:not(.raw-log-row)').forEach(function(row) {
+            if (!row.querySelector('td')) return;
+            var rowText = row.textContent.toLowerCase();
+            var rawRow = row.nextElementSibling;
+            var rawText = rawRow ? rawRow.textContent.toLowerCase() : '';
+            var visible = query === '' || rowText.indexOf(query) !== -1 || rawText.indexOf(query) !== -1;
+            row.style.display = visible ? 'table-row' : 'none';
+            if (rawRow) rawRow.style.display = visible && rawRow.style.display === 'table-row' ? 'table-row' : 'none';
+        });
+    }
+
+    document.getElementById('searchInput').addEventListener('input', filterLogs);
 </script>
 
 </body>
