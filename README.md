@@ -1,4 +1,4 @@
-# 🛡️ SOC-Lite
+# SOC-Lite
 
 A lightweight Security Operations Center (SOC) that ingests AWS CloudTrail logs, detects attack patterns using custom detection rules, and generates security alerts — with a live web dashboard.
 
@@ -20,7 +20,8 @@ The included dataset simulates a real cloud attack kill chain:
 
 | Phase | What Happens | MITRE ATT&CK |
 |-------|-------------|---------------|
-| Reconnaissance | Attacker lists S3 buckets and objects | [T1580 - Cloud Infrastructure Discovery](https://attack.mitre.org/techniques/T1580/) |
+| Reconnaissance | Attacker lists S3 buckets, objects, and security groups | [T1580 - Cloud Infrastructure Discovery](https://attack.mitre.org/techniques/T1580/) |
+| Credential Discovery | Attacker enumerates key pairs and compute resources | [T1580 - Cloud Infrastructure Discovery](https://attack.mitre.org/techniques/T1580/) |
 | Privilege Escalation | EC2 instance assumes an unauthorized IAM role | [T1078 - Valid Accounts](https://attack.mitre.org/techniques/T1078/) |
 | Exfiltration | Attacker downloads sensitive file from S3 | [T1530 - Data from Cloud Storage](https://attack.mitre.org/techniques/T1530/) |
 
@@ -28,17 +29,27 @@ The included dataset simulates a real cloud attack kill chain:
 
 Rules are defined in YAML — no code changes needed to add new detections:
 
-- **S3 Bucket Enumeration** (MEDIUM) — Lists all buckets (active recon)
-- **S3 Object Enumeration** (MEDIUM) — Lists files inside a bucket (active recon)
+**Critical/High:**
+- **Rapid Role Assumption** (CRITICAL) — Multiple role assumptions in a short time window
 - **S3 Data Exfiltration** (HIGH) — Assumed role downloads an S3 object
 - **Privilege Escalation via Role Assumption** (HIGH) — Service assumes IAM role
+- **Rapid S3 Enumeration** (HIGH) — Multiple S3 list operations in a short time window
+
+**Medium:**
+- **S3 Bucket Enumeration** (MEDIUM) — Lists all buckets (active recon)
+- **S3 Object Enumeration** (MEDIUM) — Lists files inside a bucket (active recon)
+- **Credential Discovery** (MEDIUM) — Lists key pairs (looking for SSH access)
+
+**Low:**
 - **Unusual Reconnaissance Activity** (LOW) — Describes security groups (network mapping)
+- **EC2 Instance Discovery** (LOW) — Describes EC2 instances (mapping compute)
+- **Storage Reconnaissance** (LOW) — Describes EBS volumes (mapping data storage)
 
 ## How To Run
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/leilanyr/soc-lite.git
+git clone https://github.com/LeilanyR/soc-lite.git
 cd soc-lite
 
 # 2. Install dependencies
@@ -52,7 +63,7 @@ python src/detector.py
 
 # 5. Launch dashboard
 python src/dashboard.py
-# Open http://localhost:8080/dashboard.html
+# Open http://localhost:8080/index.html
 
 Architecture
 
@@ -63,8 +74,13 @@ Tech Stack
 - Python — log parsing, detection engine, alerting
 - SQLite — event storage and querying
 - YAML — config-driven detection rules
-- HTML/CSS/JS — web dashboard
+- HTML/CSS/JS — web dashboard with dark theme and 3D effects
 
 Data Sources
 
 CloudTrail logs sourced from the OTRF Security Datasets (https://github.com/OTRF/Security-Datasets) project (MIT License) — simulated attack scenarios for security research and detection development.
+
+Also — add `*.db` to your `.gitignore` and remove the database from git:
+
+```bash
+git rm --cached soc_lite.db
